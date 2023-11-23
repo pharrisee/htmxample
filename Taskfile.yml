@@ -1,0 +1,31 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  GREETING: Hello, World!
+
+tasks:
+  tidy: go mod tidy
+
+  build:
+    deps: [tidy]
+    sources:
+      - ./**/*.go
+    generates:
+      - ./bin/htmxample
+    cmds:
+      - go build -o ./bin/htmxample .
+  
+  run:
+    deps: [build]
+    cmds:
+      - ./bin/htmxample
+
+  templ:
+    sources:
+      - ./views/**/*.templ
+    generates:
+      - ./views/**/*_templ.go
+    cmds:
+      - templ generate
